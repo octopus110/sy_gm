@@ -6,7 +6,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/income/paytotal">某时间段充值情况</a></li>
+                    <li><a href="/income/paytotal">充值情况</a></li>
                     <li><a href="/income/timelypay">实时充值总况</a></li>
                 </ul>
             </dd>
@@ -29,9 +29,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/income/pointPayment">各计费点付费分布</a></li>
-                    <li><a href="/income/channelPayment">渠道平台付费分布</a></li>
-                    <li><a href="/income/serverPayment">服务器付费分布</a></li>
+                    <li><a href="/income/paydistribution">付费分布</a></li>
                     <li><a href="/income/userPayment">充值TOP</a></li>
                     <li><a href="/income/paydetail">付费细节</a></li>
                 </ul>

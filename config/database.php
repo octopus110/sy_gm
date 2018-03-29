@@ -49,6 +49,15 @@ return [
             'password' => '',
         ],
 
+        'mongodb_dev' => [
+            'driver' => 'mongodb',
+            'host' => '192.168.10.25',
+            'port' => 27017,
+            'database' => 'log',
+            'username' => '',
+            'password' => '',
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),

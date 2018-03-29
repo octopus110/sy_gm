@@ -6,7 +6,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/online/total">总实时在线</a></li>
+                    <li><a href="/online/total">实时容器状态</a></li>
                 </ul>
             </dd>
         </dl>
@@ -30,8 +30,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/online/lengthdistribution">平均在线时长区间分布</a></li>
-                    <li><a href="/online/frequency">平均单次在线时长</a></li>
+                    <li><a href="/online/lengthdistribution">在线时长统计</a></li>
                 </ul>
             </dd>
         </dl>

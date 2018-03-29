@@ -6,8 +6,8 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/user/total">某时间段用户总况</a></li>
-                    <li><a href="/user/activetotal">用户实时总况</a></li>
+                    <li><a href="/user/total">用户总况</a></li>
+                    <li><a href="/user/realtimertotal">用户实时总况</a></li>
                 </ul>
             </dd>
         </dl>
@@ -18,10 +18,8 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="article-list.html">每日新增用户留存率</a></li>
-                    <li><a href="article-list.html">实时新用户留存率</a></li>
-                    <li><a href="article-list.html">每日活跃用户留存率</a></li>
-                    <li><a href="article-list.html">实时活跃用户留存率</a></li>
+                    <li><a href="/user/newkeep">新增用户留存率</a></li>
+                    <li><a href="/user/activekeep">活跃用户留存率</a></li>
                 </ul>
             </dd>
         </dl>
@@ -32,9 +30,9 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="article-list.html">活跃用户</a></li>
-                    <li><a href="article-list.html">流失用户</a></li>
-                    <li><a href="article-list.html">回流用户</a></li>
+                    <li><a href="/user/active">活跃用户</a></li>
+                    <li><a href="/user/chum">流失用户</a></li>
+                    <li><a href="/user/backflow">回流用户</a></li>
                 </ul>
             </dd>
         </dl>
@@ -45,12 +43,11 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="article-list.html">充值用户实时情况</a></li>
-                    <li><a href="article-list.html">充值用户每日情况</a></li>
-                    <li><a href="article-list.html">充值额度用户数分布</a></li>
-                    <li><a href="article-list.html">充值次数用户数分布</a></li>
-                    <li><a href="article-list.html">充值用户流失率</a></li>
-                    <li><a href="article-list.html">充值用户回流率</a></li>
+                    <li><a href="/user/rechargeuser">充值用户</a></li>
+                    <li><a href="/user/rechargelimit">充值额度用户数分布</a></li>
+                    <li><a href="/user/rechargepeople">充值次数用户数分布</a></li>
+                    <li><a href="/user/paychum">充值用户流失率</a></li>
+                    <li><a href="/user/paybackflow">充值用户回流率</a></li>
                 </ul>
             </dd>
         </dl>

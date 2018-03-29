@@ -4,7 +4,10 @@
 
 @section('content')
     <section class="Hui-article-box">
-        <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/online/total" class="maincolor">在线类</a>
+        <nav class="breadcrumb"><i class="Hui-iconfont"></i>
+            <a href="/" class="maincolor">首页</a>
+            <span class="c-999 en">&gt;</span>
+            <a href="/online/total" class="maincolor">在线类</a>
             <span class="c-999 en">&gt;</span>
             <span class="c-666">总实时在线</span>
             <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
@@ -12,33 +15,59 @@
         </nav>
         <div class="Hui-article">
             <article class="cl pd-20">
-                {{--<p class="f-20 text-success">此数据每5分钟更新一次</p>--}}
-                <p>当前时间：{{ date('Y-m-d H:i:s') }}</p>
-                <table class="table table-border table-bordered table-bg mt-20">
-                    <thead>
-                    <tr>
-                        <th colspan="2" scope="col">总实时在线信息</th>
-                    </tr>
-                    </thead>
-                    <tr>
-                        <td width="25%">服务器ID</td>
-                        <td>{{ $data['serverId'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>当前在线总人数</td>
-                        <td>{{ $data['onlineUsers'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>当前服务器容量</td>
-                        <td>{{ $data['offlineCacheSize'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>最近一次更新时间</td>
-                        <td>{{ date('Y-m-d H:i:s',$data['logTime']/1000) }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div id="container" style="min-width:700px;height:400px"></div>
             </article>
         </div>
     </section>
+@endsection
+
+@section('js')
+    <script type="text/javascript" src="/lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
+    <script type="text/javascript" src="/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#container').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: '实时服务器状态'
+                },
+                xAxis: {
+                    title: {
+                        text: '服务器ID'
+                    },
+                    categories: [{!! $data['x'] !!}]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '容量'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">服务器ID：{point.key}</span><br/>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: '在线人数',
+                    data: [{!! $data['y1'] !!}]
+
+                }, {
+                    name: '剩余容量',
+                    data: [{!! $data['y2'] !!}]
+
+                }]
+            });
+        });
+    </script>
 @endsection

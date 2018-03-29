@@ -21,7 +21,7 @@
 <body>
 
 <section class="Hui-article-box">
-    <nav class="breadcrumb"> 折线图
+    <nav class="breadcrumb"> {{ isset($title)?$title:'折线图' }}
         <a class="btn btn-success radius r"
            style="line-height:1.6em;margin-top:3px"
            href="javascript:location.replace(location.href);" title="刷新">

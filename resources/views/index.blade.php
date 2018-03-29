@@ -3,187 +3,168 @@
 @include('nav.online')
 
 @section('content')
+    <style>
+        .row {
+            padding-bottom: 20px;
+        }
+    </style>
     <section class="Hui-article-box">
         <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
             <span class="c-999 en">&gt;</span>
-            <span class="c-666">我的桌面</span>
+            <span class="c-666">仪表盘</span>
             <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
         </nav>
         <div class="Hui-article">
             <article class="cl pd-20">
-                <p class="f-20 text-success">欢迎使用H-ui.admin
-                    <span class="f-14">v2.3</span>
-                    后台模版！</p>
-                <p>登录次数：18 </p>
-                <p>上次登录IP：222.35.131.79.1 上次登录时间：2014-6-14 11:19:55</p>
-                <table class="table table-border table-bordered table-bg">
-                    <thead>
-                    <tr>
-                        <th colspan="7" scope="col">信息统计</th>
-                    </tr>
-                    <tr class="text-c">
-                        <th>统计</th>
-                        <th>资讯库</th>
-                        <th>图片库</th>
-                        <th>产品库</th>
-                        <th>用户</th>
-                        <th>管理员</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="text-c">
-                        <td>总数</td>
-                        <td>92</td>
-                        <td>9</td>
-                        <td>0</td>
-                        <td>8</td>
-                        <td>20</td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>今日</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>昨日</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>本周</td>
-                        <td>2</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>本月</td>
-                        <td>2</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table table-border table-bordered table-bg mt-20">
-                    <thead>
-                    <tr>
-                        <th colspan="2" scope="col">服务器信息</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th width="30%">服务器计算机名</th>
-                        <td><span id="lbServerName">http://127.0.0.1/</span></td>
-                    </tr>
-                    <tr>
-                        <td>服务器IP地址</td>
-                        <td>192.168.1.1</td>
-                    </tr>
-                    <tr>
-                        <td>服务器域名</td>
-                        <td>www.h-ui.net</td>
-                    </tr>
-                    <tr>
-                        <td>服务器端口</td>
-                        <td>80</td>
-                    </tr>
-                    <tr>
-                        <td>服务器IIS版本</td>
-                        <td>Microsoft-IIS/6.0</td>
-                    </tr>
-                    <tr>
-                        <td>本文件所在文件夹</td>
-                        <td>D:\WebSite\HanXiPuTai.com\XinYiCMS.Web\</td>
-                    </tr>
-                    <tr>
-                        <td>服务器操作系统</td>
-                        <td>Microsoft Windows NT 5.2.3790 Service Pack 2</td>
-                    </tr>
-                    <tr>
-                        <td>系统所在文件夹</td>
-                        <td>C:\WINDOWS\system32</td>
-                    </tr>
-                    <tr>
-                        <td>服务器脚本超时时间</td>
-                        <td>30000秒</td>
-                    </tr>
-                    <tr>
-                        <td>服务器的语言种类</td>
-                        <td>Chinese (People's Republic of China)</td>
-                    </tr>
-                    <tr>
-                        <td>.NET Framework 版本</td>
-                        <td>2.050727.3655</td>
-                    </tr>
-                    <tr>
-                        <td>服务器当前时间</td>
-                        <td>2014-6-14 12:06:23</td>
-                    </tr>
-                    <tr>
-                        <td>服务器IE版本</td>
-                        <td>6.0000</td>
-                    </tr>
-                    <tr>
-                        <td>服务器上次启动到现在已运行</td>
-                        <td>7210分钟</td>
-                    </tr>
-                    <tr>
-                        <td>逻辑驱动器</td>
-                        <td>C:\D:\</td>
-                    </tr>
-                    <tr>
-                        <td>CPU 总数</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>CPU 类型</td>
-                        <td>x86 Family 6 Model 42 Stepping 1, GenuineIntel</td>
-                    </tr>
-                    <tr>
-                        <td>虚拟内存</td>
-                        <td>52480M</td>
-                    </tr>
-                    <tr>
-                        <td>当前程序占用内存</td>
-                        <td>3.29M</td>
-                    </tr>
-                    <tr>
-                        <td>Asp.net所占内存</td>
-                        <td>51.46M</td>
-                    </tr>
-                    <tr>
-                        <td>当前Session数量</td>
-                        <td>8</td>
-                    </tr>
-                    <tr>
-                        <td>当前SessionID</td>
-                        <td>gznhpwmp34004345jz2q3l45</td>
-                    </tr>
-                    <tr>
-                        <td>当前系统用户名</td>
-                        <td>NETWORK SERVICE</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="row cl">
+                    <div class="col-xs-10 col-sm-10 col-offset-2">
+                        <p class="f-10">快速导航</p>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-offset-2">
+                        <div class="Hui-tags-has">
+                            <span> <a href="/income/paytotal"> 收入 </a></span>
+                            <span> <a href="/user/total"> 注册用户 </a></span>
+                            <span> <a href="/online/maxaverage"> 在线用户 </a></span>
+                            <span> <a href="/user/newkeep"> 新增用户次日留存 </a></span>
+                            <span> <a href="/user/activekeep"> 活跃用户次日留存 </a></span>
+                            <span> <a href="/income/paytotal"> 付费情况 </a></span>
+                            <span> <a href="/income/paydetail"> 付费细节 </a></span>
+                            <span> <a href="/income/payKTV"> LTV </a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <div class="ol-xs-10 col-sm-10 col-offset-2">
+                        <p class="f-20 text-success">仪表盘</p>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <div class="col-xs-2 col-sm-2 col-offset-2">
+                        <a href="/?option-date=1" class="btn btn-secondary radius">
+                            今日
+                        </a>
+
+                        <a href="/?option-date=2" class="btn btn-secondary radius">
+                            本周
+                        </a>
+
+                        <a href="/?option-date=3" class="btn btn-secondary radius">
+                            本月
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <div class="col-xs-2 col-sm-2 col-offset-2">
+                        <div class="panel panel-primary box-shadow radius">
+                            <div class="panel-header">SALES（收入）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['income'] }}</h2>
+                                <div class="text-r"><a href="/income/paytotal"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="panel panel-primary radius">
+                            <div class="panel-header">NUU（新激活）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['user_create'] }}</h2>
+                                <div class="text-r"><a href="/user/realtimertotal"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="panel panel-primary box-shadow radius">
+                            <div class="panel-header">AU（登陆）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['login_sum'] }}</h2>
+                                <div class="text-r"><a href="/user/realtimertotal"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="panel panel-primary radius">
+                            <div class="panel-header">在线人数</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['max_online'] }}</h2>
+                                <div class="text-r"><a href="/online/maxaverage"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <div class="col-xs-2 col-sm-2 col-offset-2">
+                        <div class="panel panel-primary box-shadow radius">
+                            <div class="panel-header">PAYRATE（付费率）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['pay_rat'] }}</h2>
+                                <div class="text-r"><a href="/income/timelypay"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="panel panel-primary box-shadow radius">
+                            <div class="panel-header">PAYUU（付费人数）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['pay_user'] }}</h2>
+                                <div class="text-r"><a href="/income/timelypay"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="panel panel-primary box-shadow radius">
+                            <div class="panel-header">ARPU（人均消费）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['pay_login_rat'] }}</h2>
+                                <div class="text-r"><a href="/income/timelypay"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2">
+                        <div class="panel panel-primary radius">
+                            <div class="panel-header">ARPPU（付费人均消费）</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['pay_user_rat'] }}</h2>
+                                <div class="text-r"><a href="/user/total"><i class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <div class="col-xs-2 col-sm-2 col-offset-2">
+                        <div class="panel panel-primary radius">
+                            <div class="panel-header">活跃人数</div>
+                            <div class="panel-body">
+                                <h2>{{ $data['active'] }}</h2>
+                                <div class="text-r"><a href="/user/active"><i
+                                                class="Hui-iconfont">&#xe665;</i>详情</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </article>
-            <footer class="footer">
-                <p>
-                    感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br>
-                    Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/"
-                                                                                           target="_blank"
-                                                                                           title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持
-                </p>
-            </footer>
         </div>
     </section>
 @endsection

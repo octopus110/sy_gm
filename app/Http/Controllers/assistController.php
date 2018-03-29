@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class assistController extends Controller
 {
-    //生成excel表格
+    /*//生成excel表格
     public static function exportExcel($title, $cellData)
     {
         Excel::create($title, function ($excel) use ($cellData) {
@@ -30,5 +30,5 @@ class assistController extends Controller
                 break;
         }
         return $rst;
-    }
+    }*/
 }

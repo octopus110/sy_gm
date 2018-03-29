@@ -4,36 +4,71 @@
 
 @section('content')
     <section class="Hui-article-box">
-        <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/online/total" class="maincolor">在线类</a>
+        <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
             <span class="c-999 en">&gt;</span>
-            <span class="c-666">历史在线</span>
+            <a href="/online/total" class="maincolor">在线类</a>
             <span class="c-999 en">&gt;</span>
             <span class="c-666">每日在线时段分布</span>
             <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
         </nav>
         <div class="Hui-article">
-            <article class="cl pd-20">
-                <div class="text-c">
-                    选择日期
-                    <form action="/online/timedistribution" method="post">
-                        {!! csrf_field() !!}
-                        <input type="text" name="start"
-                               onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}'})"
-                               id="logmin" class="input-text Wdate" style="width:120px;" placeholder="开始时间">
-                        -
-                        <input type="text" name="end"
-                               onfocus="WdatePicker({minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d'})"
-                               id="logmax" class="input-text Wdate" style="width:120px;" placeholder="结束时间">
-                        <button class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 查询
-                        </button>
-                    </form>
-
-                    <article class="cl pd-20">
-                        <p>查询区间：{{ date('Y/m/d H:i:s',$start/1000).' - '.date('Y/m/d H:i:s',$end/1000) }}</p>
-                        <div id="container" style="min-width:700px;height:400px"></div>
-                    </article>
+            <form action="/online/timedistribution" method="post" class="form form-horizontal">
+                {!! csrf_field() !!}
+                <div class="row cl">
+                    <label class="form-label col-xs-1 col-sm-1">起止日期：</label>
+                    <div class="formControls col-xs-1 col-sm-1">
+                        <input type="text" name="interval-date-start"
+                               onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
+                               id="datemin" class="input-text Wdate"
+                               placeholder="{{ date('Y-m-d',$start/1000) }}">
+                    </div>
+                    <div class="formControls col-xs-1 col-sm-1" style="width: 5px">-</div>
+                    <div class="formControls col-xs-1 col-sm-1">
+                        <input type="text" name="interval-date-end"
+                               onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
+                               id="datemax" class="input-text Wdate"
+                               placeholder="{{ date('Y-m-d',$end/1000) }}">
+                    </div>
                 </div>
+
+                <div class="row cl">
+                    <label class="form-label col-xs-1 col-sm-1">渠道ID：</label>
+                    <div class="formControls col-xs-1 col-sm-1">
+                        <span class="select-box">
+                            <select class="select" size="1" name="pid">
+                                <option value="0" {{ $select_pid == 0?'selected':'' }}>全部</option>
+                                @foreach($pid as $v)
+                                    <option value="{{ $v }}" {{ $select_pid == $v?'selected':'' }}>{{ $v }}</option>
+                                @endforeach
+                            </select>
+				        </span>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <label class="form-label col-xs-1 col-sm-1">服务器ID：</label>
+                    <div class="formControls col-xs-1 col-sm-1">
+                        <span class="select-box">
+                            <select class="select" size="1" name="serverId">
+                                <option value="0" {{ $serverId == 0?'selected':'' }}>全部</option>
+                                @foreach($server as $v)
+                                    <option value="{{ $v }}" {{ $serverId == $v?'selected':'' }}>{{ $v }}</option>
+                                @endforeach
+                            </select>
+				        </span>
+                    </div>
+                </div>
+
+                <div class="row cl">
+                    <div class="col-xs-1 col-sm-1 col-xs-offset-1 col-sm-offset-1">
+                        <button class="btn btn-success radius" type="submit">显示</button>
+                    </div>
+                </div>
+            </form>
+
+            <article class="cl pd-20">
+                <div id="container" style="min-width:700px;height:400px"></div>
             </article>
         </div>
     </section>
@@ -46,7 +81,7 @@
         $(function () {
             $('#container').highcharts({
                 title: {
-                    text: '每日在线时段分布',
+                    text: "每日在线时段分布",
                     x: -20 //center
                 },
                 xAxis: {
@@ -57,7 +92,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: '人数'
+                        text: "人数"
                     },
                     plotLines: [{
                         value: 0,
