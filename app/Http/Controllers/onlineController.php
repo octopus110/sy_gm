@@ -71,25 +71,27 @@ class onlineController extends Controller
     //总实时在线 实时服务器容量
     public function total()
     {
-        $data = $this->getDoc('log_coll_game_real_data_log')->select(
-            'serverId',
-            'onlineUsers',
-            'offlineCacheSize'
-        )->orderBy('_id', 'desc')->limit(50)->get()->toArray();
-
         $tmp = [];
-        foreach ($data as $v) {
-            $serverId = $v['serverId'];
-            if (!isset($tmp[$serverId])) {
-                $tmp[$serverId] = $v;
+        $serverId = array_keys($this->getServer());
+
+        foreach ($serverId as $v) {
+            $data = $this->getDoc('log_coll_game_real_data_log')->select(
+                'onlineUsers',
+                'offlineCacheSize'
+            )->where('serverId', $v)->first();
+
+            if ($data != null) {
+                $tmp[$v] = [
+                    'serverName' => "'" . $this->getServer()[$v] . "'",
+                    'onlineUsers' => $data['onlineUsers'],
+                    'offlineCacheSize' => $data['offlineCacheSize'],
+                ];
             }
         }
-
         //构造参数
-        $cart['x'] = implode(',', array_keys($tmp));
+        $cart['x'] = implode(',', array_column($tmp, 'serverName'));
         $cart['y1'] = implode(',', array_column($tmp, 'onlineUsers'));
         $cart['y2'] = implode(',', array_column($tmp, 'offlineCacheSize'));
-
         return view('online.total', ['data' => $cart]);
     }
 

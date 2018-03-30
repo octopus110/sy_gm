@@ -6,7 +6,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/">登录前公告</a></li>
+                    <li><a href="/gm/notice">登录前公告</a></li>
                 </ul>
             </dd>
         </dl>

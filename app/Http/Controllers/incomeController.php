@@ -239,26 +239,13 @@ class incomeController extends Controller
         $login_data_recharge = $login_data_recharge->get()->toArray();
 
         $create_data = array_column($create_data, 'userId');
-
-        $data[0] = [
-            'active' => 0, //活跃用户数
-            'user_pay' => 0, //充值用户数 去重
-            'user_pay_sum' => 0, //充值用户数 不去重
-            'pay_money' => 0, //总金额
-            'pay_sum' => 0, //付费次数
-            'pay_arpu' => 0,
-            'active_arpu' => 0,
-            'pay_rat' => 0
-        ];
-
         $create_data_dis = array_column($create_data, 'userId');
+
+        //获取时间列表
+        //$this_date = $this->generationHourSeries($this->getTime()[0], $this->getTime()[1]);
+
         foreach ($login_data_distinct as $v) {
             $hour = date('H', $v['logTime']);
-            $data[$hour]['active'] = count(array_unique(array_diff($v, $create_data_dis)));
-        }
-
-        foreach ($login_data_recharge as $v) {
-            $hour = (int)date('H', $v['payTime']);
             $data[$hour] = [
                 'active' => 0, //活跃用户数
                 'user_pay' => 0, //充值用户数 去重
@@ -269,7 +256,23 @@ class incomeController extends Controller
                 'active_arpu' => 0,
                 'pay_rat' => 0
             ];
+            $data[$hour]['active'] = count(array_unique(array_diff($v, $create_data_dis)));
+        }
 
+        foreach ($login_data_recharge as $v) {
+            $hour = date('H', $v['payTime']);
+            if (isset($data[$hour])) {
+                $data[$hour] = [
+                    'active' => 0, //活跃用户数
+                    'user_pay' => 0, //充值用户数 去重
+                    'user_pay_sum' => 0, //充值用户数 不去重
+                    'pay_money' => 0, //总金额
+                    'pay_sum' => 0, //付费次数
+                    'pay_arpu' => 0,
+                    'active_arpu' => 0,
+                    'pay_rat' => 0
+                ];
+            }
             $data[$hour]['user_pay_sum'] += 1;
             $data[$hour]['pay_money'] += $v['rechargeRMB'];
             $data[$hour]['pay_sum'] += 1;
@@ -278,6 +281,7 @@ class incomeController extends Controller
             $data[$hour]['pay_arpu'] = $data[$hour]['pay_money'] == 0 ? 0 : round($data[$hour]['pay_money'] / $data[$hour]['pay_sum'], 2);
             $data[$hour]['active_arpu'] = $data[$hour]['pay_money'] == 0 || $data[$hour]['active'] == 0 ? 0 : round($data[$hour]['pay_money'] / $data[$hour]['active'], 2);
         }
+
         ksort($data);
 
         //把数据存储到文件中 方便导出和画图形

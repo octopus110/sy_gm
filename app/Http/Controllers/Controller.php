@@ -16,7 +16,7 @@ class Controller extends BaseController
 
     protected function getDoc($obj)
     {
-        return DB::collection($obj);
+        return DB::connection('mongodb')->collection($obj);
     }
 
     public $day_time = 86400000;
@@ -36,13 +36,16 @@ class Controller extends BaseController
     //查询服务器ID
     public function getServer()
     {
-        if (session()->has('serverId')) {
-            return session()->get('serverId');
-        } else {
-            $serverId = $this->getDoc('log_coll_login')->distinct('serverId')->get();
-            session()->put('serverId', $serverId);
-            return $serverId;
-        }
+        return [
+            1 => '开发测试服',
+            2 => 'wj测试服',
+            3 => 'mingtao',
+            4 => '内网测试服',
+            5 => 'QA月版本服务器',
+            6 => 'QA测试服',
+            7 => 'gc服务器',
+            8 => 'WEI'
+        ];
     }
 
     //获取route路径

@@ -39,7 +39,7 @@
                     <li><a href="/online/total"> 在线类 </a></li>
                     <li><a href="/income/paytotal"> 收入类 </a></li>
                     <li><a href="/user/total"> 用户类 </a></li>
-                    <li><a href="/gm/index"> GM工具 </a></li>
+                    <li><a href="/gm/notice"> GM工具 </a></li>
                 </ul>
             </nav>
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">

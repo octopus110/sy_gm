@@ -52,5 +52,6 @@ Route::group(['prefix' => 'user'], function () {
 
 //GM工具
 Route::group(['prefix' => 'gm'], function () {
-    Route::any('index', 'gmController@index');//用户某时间总况
+    Route::any('notice', 'gmController@notice');//登录前公告
+    Route::any('notice/new_edit', 'gmController@noticeNewEdit');//登录前公告编辑
 });
