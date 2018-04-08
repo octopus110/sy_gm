@@ -57,11 +57,11 @@ class userController extends Controller
         )
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
 
         $db_data_new_user = $db_head->get();
@@ -71,11 +71,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -84,11 +84,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - $this->day_time)
             ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login_pre = $db_head->get()->toArray();
 
@@ -97,11 +97,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_role = $db_head->get()->toArray();
 
@@ -230,11 +230,8 @@ class userController extends Controller
         )
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
 
         $db_data_new_user = $db_head->get();
@@ -244,11 +241,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -257,11 +254,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - 3600000)
             ->where('logTime', '<=', $this->getTime()[1] - 3600000);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login_pre = $db_head->get()->toArray();
 
@@ -270,11 +267,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_role = $db_head->get()->toArray();
 
@@ -369,12 +366,10 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - $this->day_time * 60)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
-        }
+
         $db_data_create_user = $db_head->get()->toArray();
 
         //查询所有登陆的用户 近期两个月采样
@@ -382,11 +377,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - $this->day_time * 60)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -396,10 +391,7 @@ class userController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
         if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         $create_user = $db_head->get()->toArray();
 
@@ -415,6 +407,7 @@ class userController extends Controller
 
             $login_user_userid = array_column($db_data_login, 'userId');
 
+
             foreach ($db_data_create_user as $v) {
                 $this_create_time = $v['logTime'];//用户注册时间
 
@@ -422,24 +415,24 @@ class userController extends Controller
                 $index = array_search($v['userId'], $login_user_userid);
                 if ($index) {
                     $this_login_time = $db_data_login[$index]['logTime'];
-                }
 
-                $interval = ceil(($this_login_time - $this_create_time) / $this->day_time);
-                switch ($interval) {
-                    case 1:
-                        $tmp['day']++;
-                        break;
-                    case 3:
-                        $tmp['threeday']++;
-                        break;
-                    case 7:
-                        $tmp['week']++;
-                        break;
-                    case 15:
-                        $tmp['halfmonth']++;
-                        break;
-                    case 30:
-                        $tmp['month']++;
+                    $interval = ceil(($this_login_time - $this_create_time) / $this->day_time);
+                    switch ($interval) {
+                        case 1:
+                            $tmp['day']++;
+                            break;
+                        case 3:
+                            $tmp['threeday']++;
+                            break;
+                        case 7:
+                            $tmp['week']++;
+                            break;
+                        case 15:
+                            $tmp['halfmonth']++;
+                            break;
+                        case 30:
+                            $tmp['month']++;
+                    }
                 }
             }
 
@@ -606,11 +599,8 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - $this->day_time * 60)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         $db_data_create_user = $db_head->get()->toArray();
 
@@ -619,11 +609,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - $this->day_time * 60)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -632,11 +622,8 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         $create_user = $db_head->get()->toArray();
 
@@ -645,11 +632,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_role = $db_head->get()->toArray();
 
@@ -870,11 +857,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0] - $this->day_time)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -883,11 +870,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_role = $db_head->get()->toArray();
 
@@ -948,11 +935,8 @@ class userController extends Controller
         //查询所有注册的用户
         $db_head = $this->getDoc('log_coll_create_user')
             ->distinct('userId');
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         $db_data_create_user = $db_head->get()->toArray();
 
@@ -961,11 +945,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 30)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -1005,11 +989,8 @@ class userController extends Controller
         $db_head = $this->getDoc('log_coll_create_user')
             ->distinct('userId')
             ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         $db_data_create_user = $db_head->get()->toArray();
 
@@ -1018,11 +999,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 31)
             ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -1057,11 +1038,11 @@ class userController extends Controller
             ->distinct('userId')
             ->where('logTime', '>=', $this->getTime()[1] - $this->day_time)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login_day = $db_head->get()->toArray();
 
@@ -1123,11 +1104,11 @@ class userController extends Controller
             ->select('userId', 'payTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_pay_user = $db_head->get()->toArray();
 
@@ -1136,11 +1117,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_role = $db_head->get()->toArray();
 
@@ -1149,11 +1130,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -1293,11 +1274,11 @@ class userController extends Controller
             ->select('userId', 'payTime', 'rechargeRMB')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_pay_user = $db_head->get()->toArray();
 
@@ -1324,13 +1305,13 @@ class userController extends Controller
                     $data[$v]['1y'] = $data[$v]['5y'] = $data[$v]['10y'] = $data[$v]['20y'] = $data[$v]['more'] = 0;
 
                     foreach ($recharge_arr as $value) {
-                        if ($value < 1) {
+                        if ($value < 100) {
                             $data[$v]['1y']++;
-                        } elseif ($value < 5) {
+                        } elseif ($value < 500) {
                             $data[$v]['5y']++;
-                        } elseif ($value < 10) {
+                        } elseif ($value < 1000) {
                             $data[$v]['10y']++;
-                        } elseif ($value < 20) {
+                        } elseif ($value < 2000) {
                             $data[$v]['20y']++;
                         } else {
                             $data[$v]['more']++;
@@ -1421,11 +1402,11 @@ class userController extends Controller
             ->select('userId', 'payTime', 'rechargeRMB')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_pay_user = $db_head->get()->toArray();
 
@@ -1537,11 +1518,11 @@ class userController extends Controller
         //查询所有注册的用户
         $db_head = $this->getDoc('log_coll_recharge')
             ->distinct('userId');
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_user = $db_head->get()->toArray();
 
@@ -1550,11 +1531,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 30)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -1594,11 +1575,11 @@ class userController extends Controller
         $db_head = $this->getDoc('log_coll_recharge')
             ->distinct('userId')
             ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_create_user = $db_head->get()->toArray();
 
@@ -1607,11 +1588,11 @@ class userController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 31)
             ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
 
@@ -1646,11 +1627,11 @@ class userController extends Controller
             ->distinct('userId')
             ->where('logTime', '>=', $this->getTime()[1] - $this->day_time)
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $db_head = $db_head->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', request()->get('serverId') * 1);
+            $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login_day = $db_head->get()->toArray();
 

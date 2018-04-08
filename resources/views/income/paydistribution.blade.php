@@ -73,8 +73,8 @@
                     <tbody>
                     @foreach($data as $v)
                         <tr class="text-c">
-                            <td>{{ $v['id'] }}</td>
-                            <td>{{ $v['money'] }}</td>
+                            <td>{{ isset($v['id'])?$v['id']:date('Y-m-d H:i:s',$v['time']/1000) }}</td>
+                            <td>{{ round($v['money']/100,2) }}</td>
                             <td>{{ $v['rat'] }}</td>
                         </tr>
                     @endforeach

@@ -48,16 +48,6 @@ return [
             'username' => '',
             'password' => '',
         ],
-
-        'mongodb_dev' => [
-            'driver' => 'mongodb',
-            'host' => '192.168.10.25',
-            'port' => 27017,
-            'database' => 'log',
-            'username' => '',
-            'password' => '',
-        ],
-
         'mysql' => [
             'driver' => 'mysql',
             'host' => '127.0.0.1',
@@ -67,6 +57,29 @@ return [
             'password' => 'root',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'mongodb_dev' => [
+            'driver' => 'mongodb',
+            'host' => '192.168.10.25',
+            'port' => 27017,
+            'database' => 'log',
+            'username' => '',
+            'password' => '',
+        ],
+        'mysql_dev' => [
+            'driver' => 'mysql',
+            'host' => '192.168.10.25',
+            'port' => '3306',
+            'database' => 'ydh_gm',
+            'username' => 'root',
+            'password' => 'root',
+            'unix_socket' => env('DB_SOCKET', ''),
+            /*'charset' => 'utf8mb4',*/
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => true,

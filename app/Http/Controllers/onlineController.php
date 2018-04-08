@@ -140,12 +140,12 @@ class onlineController extends Controller
         )
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $data_log = $data_log->where('pid', request()->pid);
+        if ((int)request()->pid) {
+            $data_log = $data_log->where('pid', (int)request()->pid);
         }
 
-        if (request()->serverId) {
-            $data_log = $data_log->where('serverId', request()->serverId);
+        if ((int)request()->serverId) {
+            $data_log = $data_log->where('serverId', (int)request()->serverId);
         }
 
         $data_log = $data_log->get();
@@ -238,11 +238,11 @@ class onlineController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $login_data = $login_data->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $login_data = $login_data->where('pid', (int)request()->pid * 1);
         }
 
-        if (request()->serverId) {
+        if ((int)request()->serverId) {
             $login_data = $login_data->where('serverId', request()->get('serverId') * 1);
         }
         $login_data = $login_data->get()->toArray();
@@ -253,11 +253,11 @@ class onlineController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $create_data = $create_data->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $create_data = $create_data->where('pid', (int)request()->pid * 1);
         }
 
-        if (request()->serverId) {
+        if ((int)request()->serverId) {
             $create_data = $create_data->where('serverId', request()->get('serverId') * 1);
         }
 
@@ -275,7 +275,12 @@ class onlineController extends Controller
                 $data[$v]['active'] = $data[$v]['login_sum'] = $data[$v]['login_avg'] = 0;
                 if (isset($login_data[$v])) {
                     $login_data_distinct = array_unique(array_column($login_data[$v], 'userId'));
-                    $create_data_distinct = array_unique(array_column($create_data[$v], 'userId'));
+                    if (isset($create_data[$v])) {
+                        $create_data_distinct = array_unique(array_column($create_data[$v], 'userId'));
+                    } else {
+                        $create_data_distinct = [];
+                    }
+
 
                     $data[$v]['active'] = count(array_diff($login_data_distinct, $create_data_distinct));
 
@@ -310,12 +315,12 @@ class onlineController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $data_log = $data_log->where('pid', request()->pid);
+        if ((int)request()->pid) {
+            $data_log = $data_log->where('pid', (int)request()->pid);
         }
 
-        if (request()->serverId) {
-            $data_log = $data_log->where('serverId', request()->serverId);
+        if ((int)request()->serverId) {
+            $data_log = $data_log->where('serverId', (int)request()->serverId);
         }
 
         $data_log = $data_log->get()->toArray();
@@ -401,10 +406,10 @@ class onlineController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $login_data = $login_data->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $login_data = $login_data->where('pid', (int)request()->pid * 1);
         }
-        if (request()->serverId) {
+        if ((int)request()->serverId) {
             $login_data = $login_data->where('serverId', request()->get('serverId') * 1);
         }
 
@@ -417,11 +422,11 @@ class onlineController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->whereIn('userId', $login_userId);
 
-        if (request()->pid) {
-            $loginoff_data = $loginoff_data->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $loginoff_data = $loginoff_data->where('pid', (int)request()->pid * 1);
         }
 
-        if (request()->serverId) {
+        if ((int)request()->serverId) {
             $loginoff_data = $loginoff_data->where('serverId', request()->get('serverId') * 1);
         }
 

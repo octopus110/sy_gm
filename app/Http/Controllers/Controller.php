@@ -14,12 +14,50 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    //连接数据库
     protected function getDoc($obj)
     {
         return DB::connection('mongodb')->collection($obj);
     }
 
+    //一天的毫秒数
     public $day_time = 86400000;
+
+    //接口跟目录
+    public $port_path = 'http://192.168.9.251:8080/sy_gm/';
+
+    /*
+     *  调用远程接口完成部分工作
+     *  第一步做的是登录验证
+     * */
+    //远程登录验证函数
+    public function login_remote()
+    {
+        $url = $this->port_path . 'login.do?userName=1&userPass=2';
+        $data = $this->curl($url);
+
+        return $data;
+    }
+
+    //查询服务器ID
+    public function getServer()
+    {
+        if (session()->has('server')) {
+            return session()->get('server');
+        } else {
+            $sessionId = $this->login_remote();
+            $url = $this->port_path . 'getLogicServer.do';
+            $data = $this->curl($url, '', "JSESSIONID=" . $sessionId);
+            $data = json_decode($data, true);
+
+            $server = array_combine(array_column($data, 'serverId'), array_column($data, 'serverName'));
+            ksort($server);
+
+            session()->put('server', $server);
+
+            return $server;
+        }
+    }
 
     //查询渠道ID
     public function getPid()
@@ -27,25 +65,30 @@ class Controller extends BaseController
         if (session()->has('pid')) {
             return session()->get('pid');
         } else {
-            $pid = $this->getDoc('log_coll_create_user')->distinct('pid')->get();
+            $sessionId = $this->login_remote();
+            $url = $this->port_path . 'getPlatform.do';
+            $data = $this->curl($url, '', "JSESSIONID=" . $sessionId);
+            $data = json_decode($data, true);
+
+            $pid = array_combine(array_column($data, 'id'), array_column($data, 'channel'));
+            ksort($pid);
+
             session()->put('pid', $pid);
             return $pid;
         }
     }
 
-    //查询服务器ID
-    public function getServer()
+    //查询管理员权限
+    public function getJurisdiction()
     {
-        return [
-            1 => '开发测试服',
-            2 => 'wj测试服',
-            3 => 'mingtao',
-            4 => '内网测试服',
-            5 => 'QA月版本服务器',
-            6 => 'QA测试服',
-            7 => 'gc服务器',
-            8 => 'WEI'
-        ];
+        if (session()->has('jurisdiction')) {
+            return session()->get('jurisdiction');
+        } else {
+            $data = DB::table('t_group')->select('id', 'name')->get()->toArray();
+            session()->put('jurisdiction', $data);
+
+            return $data;
+        }
     }
 
     //获取route路径
@@ -94,27 +137,26 @@ class Controller extends BaseController
         return $data;
     }
 
-
     //获取时间
     public function getTime()
     {
         //默认查询今天
         $end = time() * 1000;
-        $start = $end - $this->day_time;
+        $start = strtotime(date('Y-m-d', time())) * 1000;
 
         //时间点
         switch (request()->get('option-date')) {
             case 1://本天
                 $end = time() * 1000;
-                $start = $end - $this->day_time;
+                $start = strtotime(date('Y-m-d', time())) * 1000;
                 break;
             case 2://本周
                 $end = time() * 1000;
-                $start = $end - $this->day_time * 7;
+                $start = strtotime(date('Y-m-d', time())) * 1000 - $this->day_time * 6;
                 break;
             case 3://本月
                 $end = time() * 1000;
-                $start = $end - $this->day_time * 30;
+                $start = strtotime(date('Y-m-d', time())) * 1000 - $this->day_time * 29;
                 break;
         }
 
@@ -231,5 +273,52 @@ class Controller extends BaseController
                 $data[$v] = $tmp;
             }
         }
+    }
+
+    /**
+     * @param $url 请求网址
+     * @param bool $params 请求参数
+     * @param int $ispost 请求方式
+     * @param int $https https协议
+     * @return bool|mixed
+     */
+    public function curl($url, $params = false, $cookie = '', $ispost = 0, $https = 0)
+    {
+        $httpInfo = array();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36');
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+        if ($https) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); // 对认证证书来源的检查
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); // 从证书中检查SSL加密算法是否存在
+        }
+        if ($ispost) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($ch, CURLOPT_URL, $url);
+        } else {
+            if ($params) {
+                if (is_array($params)) {
+                    $params = http_build_query($params);
+                }
+                curl_setopt($ch, CURLOPT_URL, $url . '?' . $params);
+            } else {
+                curl_setopt($ch, CURLOPT_URL, $url);
+            }
+        }
+
+        $response = curl_exec($ch);
+
+        if ($response === FALSE) {
+            return false;
+        }
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpInfo = array_merge($httpInfo, curl_getinfo($ch));
+        curl_close($ch);
+        return $response;
     }
 }

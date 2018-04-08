@@ -56,8 +56,8 @@
                         <span class="select-box">
                             <select class="select" size="1" name="pid">
                                 <option value="0" {{ $select_pid == 0?'selected':'' }}>全部</option>
-                                @foreach($pid as $v)
-                                    <option value="{{ $v }}" {{ $select_pid == $v?'selected':'' }}>{{ $v }}</option>
+                                @foreach($pid as $k=>$v)
+                                    <option value="{{ $k }}" {{ $select_pid == $k?'selected':'' }}>{{ $v }}</option>
                                 @endforeach
                             </select>
 				        </span>
@@ -140,8 +140,8 @@
                         <tr class="text-c">
                             <td>{{ $k }}</td>
                             <td>{{ $v['recharge_user_sum'] }}</td>
-                            <td>{{ $v['recharge_sum'] }}</td>
-                            <td>{{ $v['aver_recharge'] }}</td>
+                            <td>{{ round($v['recharge_sum']/100,2) }}</td>
+                            <td>{{ round($v['aver_recharge']/100,2) }}</td>
                             <td>{{ $v['1c'] }}</td>
                             <td>{{ $v['2c'] }}</td>
                             <td>{{ $v['3c'] }}</td>

@@ -88,10 +88,19 @@ Here is the English content." !!}</textarea>
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>显示语言：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="language" class="select">
+					<option value="cn" {{ isset($data->language) && $data->language=='cn'?'selected':'' }}>中文</option>
+					<option value="en" {{ isset($data->language) && $data->language=='en'?'selected':'' }}>英文</option>
+				</select>
+				</span></div>
+        </div>
+        <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                 <button class="btn btn-primary radius" type="submit" name="status"
                         value="1">
-                    <i class="Hui-iconfont"> &#xe632;</i> 保存并提交审核
+                    <i class="Hui-iconfont"> &#xe632;</i> 保存
                 </button>
                 <button class="btn btn-secondary radius" type="submit" name="status"
                         value="0">

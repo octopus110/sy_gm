@@ -57,11 +57,11 @@ class incomeController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $login_data_distinct = $login_data_distinct->where('pid', request()->pid);
+        if ((int)request()->pid) {
+            $login_data_distinct = $login_data_distinct->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $login_data_distinct = $login_data_distinct->where('serverId', request()->serverId);
+        if ((int)request()->serverId) {
+            $login_data_distinct = $login_data_distinct->where('serverId', (int)request()->serverId);
         }
         $login_data_distinct = $login_data_distinct->get()->toArray();
 
@@ -70,24 +70,25 @@ class incomeController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $create_data = $create_data->where('pid', request()->pid);
+        if ((int)request()->pid) {
+            $create_data = $create_data->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $create_data = $create_data->where('serverId', request()->get('serverId'));
+        if ((int)request()->serverId) {
+            $create_data = $create_data->where('serverId', (int)request()->serverId);
         }
         $create_data = $create_data->get()->toArray();
+
         //查询用户付费
         $login_data_recharge = $this->getDoc('log_coll_recharge')->select(
             'userId', 'rechargeRMB', 'logTime'
         )
             ->where('payTime', '>=', $this->getTime()[0])
             ->where('payTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $login_data_recharge = $login_data_recharge->where('pid', request()->pid);
+        if ((int)request()->pid) {
+            $login_data_recharge = $login_data_recharge->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $login_data_recharge = $login_data_recharge->where('serverId', request()->get('serverId'));
+        if ((int)request()->serverId) {
+            $login_data_recharge = $login_data_recharge->where('serverId', (int)request()->serverId);
         }
         $login_data_recharge = $login_data_recharge->get()->toArray();
 
@@ -102,7 +103,6 @@ class incomeController extends Controller
                 $v = array_unique(array_column($v, 'userId'));
 
                 $data[$k]['active'] = $data[$k]['user_pay'] = $data[$k]['user_pay_sum'] = $data[$k]['pay_money'] = $data[$k]['pay_sum'] = $data[$k]['pay_arpu'] = $data[$k]['active_arpu'] = $data[$k]['pay_rat'] = 0;
-
                 $data[$k]['active'] = count(array_diff($v, array_unique(array_column($create_data, 'userId'))));
 
                 if (isset($login_data_recharge[$k])) {
@@ -201,11 +201,11 @@ class incomeController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $login_data_distinct = $login_data_distinct->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $login_data_distinct = $login_data_distinct->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $login_data_distinct = $login_data_distinct->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->serverId) {
+            $login_data_distinct = $login_data_distinct->where('serverId', (int)request()->serverId * 1);
         }
         $login_data_distinct = $login_data_distinct->get()->toArray();
 
@@ -214,11 +214,11 @@ class incomeController extends Controller
             ->select('userId', 'logTime')
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
-        if (request()->pid) {
-            $create_data = $create_data->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $create_data = $create_data->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $create_data = $create_data->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->serverId) {
+            $create_data = $create_data->where('serverId', (int)request()->serverId * 1);
         }
 
         $create_data = $create_data->get()->toArray();
@@ -229,11 +229,11 @@ class incomeController extends Controller
             ->where('payTime', '>=', $this->getTime()[0])
             ->where('payTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $login_data_recharge = $login_data_recharge->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $login_data_recharge = $login_data_recharge->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $login_data_recharge = $login_data_recharge->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->serverId) {
+            $login_data_recharge = $login_data_recharge->where('serverId', (int)request()->serverId * 1);
         }
 
         $login_data_recharge = $login_data_recharge->get()->toArray();
@@ -320,11 +320,8 @@ class incomeController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $create_user = $create_user->where('pid', request()->pid * 1);
-        }
-        if (request()->serverId) {
-            $create_user = $create_user->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->pid) {
+            $create_user = $create_user->where('pid', (int)request()->pid);
         }
         $create_user = $create_user->get()->toArray();
 
@@ -359,6 +356,27 @@ class incomeController extends Controller
         $data = [];
         switch (request()->get('type')) {
             case 1:
+                $channel_pay = $this->getDoc('log_coll_recharge')
+                    ->select('rechargeRMB', 'logTime')
+                    ->where('logTime', '>=', $this->getTime()[0])
+                    ->where('logTime', '<=', $this->getTime()[1])
+                    ->get()->toArray();
+
+                $channel_pay_data = [];
+                foreach ($channel_pay as $k => $v) {
+                    $channel_pay_data[$v['logTime']][] = $v;
+                }
+
+                $tatal_money = array_sum(array_column($channel_pay, 'rechargeRMB'));
+
+                foreach ($channel_pay_data as $k => $v) {
+                    $v_total_money = array_sum(array_column($v, 'rechargeRMB'));
+                    $data[$k] = [
+                        'time' => $k,
+                        'money' => $v_total_money,
+                        'rat' => round($v_total_money / $tatal_money, 2)
+                    ];
+                }
                 break;
             case 2:
                 $channel_pay = $this->getDoc('log_coll_recharge')
@@ -382,7 +400,6 @@ class incomeController extends Controller
                         'rat' => round($v_total_money / $tatal_money, 2)
                     ];
                 }
-
                 break;
             case 3:
                 $channel_pay = $this->getDoc('log_coll_recharge')
@@ -401,7 +418,7 @@ class incomeController extends Controller
                 foreach ($channel_pay_data as $k => $v) {
                     $v_total_money = array_sum(array_column($v, 'rechargeRMB'));
                     $data[$k] = [
-                        'id' => $k,
+                        'id' => $this->getServer()[$k],
                         'money' => $v_total_money,
                         'rat' => round($v_total_money / $tatal_money, 2)
                     ];
@@ -434,11 +451,11 @@ class incomeController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $pay_user = $pay_user->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $pay_user = $pay_user->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $pay_user = $pay_user->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->serverId) {
+            $pay_user = $pay_user->where('serverId', (int)request()->serverId * 1);
         }
 
         $pay_user = $pay_user->get()->toArray();
@@ -496,11 +513,11 @@ class incomeController extends Controller
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
 
-        if (request()->pid) {
-            $data = $data->where('pid', request()->pid * 1);
+        if ((int)request()->pid) {
+            $data = $data->where('pid', (int)request()->pid);
         }
-        if (request()->serverId) {
-            $data = $data->where('serverId', request()->get('serverId') * 1);
+        if ((int)request()->serverId) {
+            $data = $data->where('serverId', (int)request()->serverId * 1);
         }
 
         $data = $data->get()->toArray();

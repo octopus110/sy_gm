@@ -162,6 +162,7 @@ return [
 
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
     ],
 
     /*
@@ -213,6 +214,7 @@ return [
 
         'Mongo' => Jenssegers\Mongodb\MongodbServiceProvider::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
 
     ],
 ];

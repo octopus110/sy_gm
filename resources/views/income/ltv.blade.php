@@ -55,8 +55,8 @@
                         <span class="select-box">
                             <select class="select" size="1" name="pid">
                                 <option value="0" {{ $select_pid == 0?'selected':'' }}>全部</option>
-                                @foreach($pid as $v)
-                                    <option value="{{ $v }}" {{ $select_pid == $v?'selected':'' }}>{{ $v }}</option>
+                                @foreach($pid as $k=>$v)
+                                    <option value="{{ $k }}" {{ $select_pid == $k?'selected':'' }}>{{ $v }}</option>
                                 @endforeach
                             </select>
 				        </span>
@@ -105,7 +105,7 @@
                     @foreach($data as $k=>$v)
                         <tr class="text-c">
                             <td>{{ $k }}</td>
-                            <td>{{ $v['ltv'] }}</td>
+                            <td>{{ round($v['ltv']/100,2) }}</td>
                         </tr>
                     @endforeach
                     </tbody>
