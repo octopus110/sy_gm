@@ -17,7 +17,7 @@ class Controller extends BaseController
     //连接数据库
     protected function getDoc($obj)
     {
-        return DB::connection('mongodb')->collection($obj);
+        return DB::connection('mongodb_dev')->collection($obj);
     }
 
     //一天的毫秒数
