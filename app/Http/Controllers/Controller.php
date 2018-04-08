@@ -17,7 +17,7 @@ class Controller extends BaseController
     //连接数据库
     protected function getDoc($obj)
     {
-        return DB::connection('mongodb_dev')->collection($obj);
+        return DB::connection('mongodb')->collection($obj);
     }
 
     //一天的毫秒数
@@ -146,10 +146,6 @@ class Controller extends BaseController
 
         //时间点
         switch (request()->get('option-date')) {
-            case 1://本天
-                $end = time() * 1000;
-                $start = strtotime(date('Y-m-d', time())) * 1000;
-                break;
             case 2://本周
                 $end = time() * 1000;
                 $start = strtotime(date('Y-m-d', time())) * 1000 - $this->day_time * 6;
@@ -320,5 +316,19 @@ class Controller extends BaseController
         $httpInfo = array_merge($httpInfo, curl_getinfo($ch));
         curl_close($ch);
         return $response;
+    }
+
+    //根据某一字段去重二位数组
+    function array_unset_tt($arr, $key)
+    {
+        $res = array();
+        foreach ($arr as $value) {
+            if (isset($res[$value[$key]])) {
+                unset($value[$key]);
+            } else {
+                $res[$value[$key]] = $value;
+            }
+        }
+        return $res;
     }
 }

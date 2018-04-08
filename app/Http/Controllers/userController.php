@@ -932,18 +932,10 @@ class userController extends Controller
     //流失用户
     public function chum()
     {
-        //查询所有注册的用户
-        $db_head = $this->getDoc('log_coll_create_user')
-            ->distinct('userId');
-        if ((int)request()->pid) {
-            $db_head = $db_head->where('pid', (int)request()->pid);
-        }
-        $db_data_create_user = $db_head->get()->toArray();
-
-        //查询一月内登陆的用户
+        //3月采样
         $db_head = $this->getDoc('log_coll_login')
             ->select('userId', 'logTime')
-            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 30)
+            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 90)
             ->where('logTime', '<=', $this->getTime()[1]);
         if ((int)request()->pid) {
             $db_head = $db_head->where('pid', (int)request()->pid);
@@ -951,33 +943,26 @@ class userController extends Controller
         if (request()->serverId) {
             $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
-        $db_data_login = $db_head->get()->toArray();
+        $db_data_login = $db_head->orderBy('logTime', 'desc')->get()->toArray();
+        $db_data_login = $this->array_unset_tt($db_data_login, 'userId');
 
-        $week = $doubweek = $month = [];
+        $week = $doubweek = $month = 0;
         foreach ($db_data_login as $v) {
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 7) {
-                if (!in_array($v['userId'], $week)) {
-                    $week[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 7) {
+                $week++;
             }
-
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 14) {
-                if (!in_array($v['userId'], $doubweek)) {
-                    $doubweek[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 14) {
+                $doubweek++;
             }
-
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 30) {
-                if (!in_array($v['userId'], $month)) {
-                    $month[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 30) {
+                $month++;
             }
         }
 
         $data['time'] = date('Y-m-d', $this->getTime()[1] / 1000);
-        $data['week'] = count(array_diff($db_data_create_user, $week));
-        $data['doubweek'] = count(array_diff($db_data_create_user, $doubweek));
-        $data['month'] = count(array_diff($db_data_create_user, $month));
+        $data['week'] = $week;
+        $data['doubweek'] = $doubweek;
+        $data['month'] = $month;
 
         return $this->standard_return_view('user.chum', $data);
     }
@@ -985,19 +970,10 @@ class userController extends Controller
     //回流
     public function backflow()
     {
-        //查询所有注册的用户
-        $db_head = $this->getDoc('log_coll_create_user')
-            ->distinct('userId')
-            ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
-        if ((int)request()->pid) {
-            $db_head = $db_head->where('pid', (int)request()->pid);
-        }
-        $db_data_create_user = $db_head->get()->toArray();
-
-        //查询一月内登陆的用户
+        //3月采样
         $db_head = $this->getDoc('log_coll_login')
             ->select('userId', 'logTime')
-            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 31)
+            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 90)
             ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
         if ((int)request()->pid) {
             $db_head = $db_head->where('pid', (int)request()->pid);
@@ -1005,33 +981,23 @@ class userController extends Controller
         if (request()->serverId) {
             $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
-        $db_data_login = $db_head->get()->toArray();
+        $db_data_login = $db_head->orderBy('logTime', 'desc')->get()->toArray();
+        $db_data_login = $this->array_unset_tt($db_data_login, 'userId');
 
         $week = $doubweek = $month = [];
         foreach ($db_data_login as $v) {
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 7) {
-                if (!in_array($v['userId'], $week)) {
-                    $week[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 7) {
+                $week[] = $v['userId'];
             }
 
             if ($v['logTime'] >= time() * 1000 - $this->day_time * 14) {
-                if (!in_array($v['userId'], $doubweek)) {
-                    $doubweek[] = $v['userId'];
-                }
+                $doubweek[] = $v['userId'];
             }
 
             if ($v['logTime'] >= time() * 1000 - $this->day_time * 30) {
-                if (!in_array($v['userId'], $month)) {
-                    $month[] = $v['userId'];
-                }
+                $month[] = $v['userId'];
             }
         }
-
-        $data['time'] = date('Y-m-d', $this->getTime()[1] / 1000);
-        $data['week'] = count(array_diff($db_data_create_user, $week));
-        $data['doubweek'] = count(array_diff($db_data_create_user, $doubweek));
-        $data['month'] = count(array_diff($db_data_create_user, $month));
 
         //查询今天登陆的用户
         $db_head = $this->getDoc('log_coll_login')
@@ -1047,10 +1013,9 @@ class userController extends Controller
         $db_data_login_day = $db_head->get()->toArray();
 
         $data['time'] = date('Y-m-d', $this->getTime()[1] / 1000);
-        $data['week'] = count(array_intersect($db_data_login_day, array_diff($db_data_create_user, $week)));
-        $data['doubweek'] = count(array_intersect($db_data_login_day, array_diff($db_data_create_user, $doubweek)));
-        $data['month'] = count(array_intersect($db_data_login_day, array_diff($db_data_create_user, $month)));
-
+        $data['week'] = count(array_intersect($db_data_login_day, $week));
+        $data['doubweek'] = count(array_intersect($db_data_login_day, $doubweek));
+        $data['month'] = count(array_intersect($db_data_login_day, $month));
 
         return $this->standard_return_view('user.backflow', $data);
     }
@@ -1099,7 +1064,7 @@ class userController extends Controller
             return view('graph.line', ['data' => $graph]);
         }
 
-        //查询今日新增充值用户
+        //查询新增充值用户
         $db_head = $this->getDoc('log_coll_recharge')
             ->select('userId', 'payTime')
             ->where('logTime', '>=', $this->getTime()[0])
@@ -1112,9 +1077,13 @@ class userController extends Controller
         }
         $db_data_pay_user = $db_head->get()->toArray();
 
+        //获取付费用户ID
+        $pay_user_id = array_unique(array_column($db_data_pay_user, 'userId'));
+
         //查询创建角色用户量
         $db_head = $this->getDoc('log_coll_create_role')
             ->select('userId', 'logTime')
+            ->whereIn('userId', $pay_user_id)
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
         if ((int)request()->pid) {
@@ -1125,9 +1094,10 @@ class userController extends Controller
         }
         $db_data_create_role = $db_head->get()->toArray();
 
-        //用户登陆量
+        //查询登录用户
         $db_head = $this->getDoc('log_coll_login')
             ->select('userId', 'logTime')
+            ->whereIn('userId', $pay_user_id)
             ->where('logTime', '>=', $this->getTime()[0])
             ->where('logTime', '<=', $this->getTime()[1]);
         if ((int)request()->pid) {
@@ -1138,7 +1108,6 @@ class userController extends Controller
         }
         $db_data_login = $db_head->get()->toArray();
 
-
         $data = [];
         if (request()->get('type-date') == 1) { //按日显示
             $db_data_pay_user = $this->rearrayToTime($db_data_pay_user, 'payTime');
@@ -1148,8 +1117,8 @@ class userController extends Controller
             //获取时间列表
             $this_date = $this->generationTimeSeries($this->getTime()[0], $this->getTime()[1]);
 
-            $tmp = [];
             foreach ($this_date as $v) {
+                $tmp = [];
                 if (isset($db_data_pay_user[$v])) {
                     $tmp = array_unique(array_column($db_data_pay_user[$v], 'userId'));
                     $data[$v]['pay_user'] = count($tmp);
@@ -1158,9 +1127,9 @@ class userController extends Controller
                 }
 
                 if (isset($db_data_create_role[$v])) {
-                    $db_data_create_role[$v] = array_unique(array_column($db_data_create_role[$v], 'userId'));
+                    $db_data_create_role_unique = array_unique(array_column($db_data_create_role[$v], 'userId'));
 
-                    $data[$v]['active_pay_user'] = count(array_diff($tmp, $db_data_create_role[$v]));
+                    $data[$v]['active_pay_user'] = count(array_diff($tmp, $db_data_create_role_unique));
                 } else {
                     $data[$v]['active_pay_user'] = 0;
                 }

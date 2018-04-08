@@ -94,12 +94,3 @@
         </div>
     </section>
 @endsection
-
-@section('js')
-    <script type="text/javascript">
-        $('.table-sort').dataTable({
-            "aaSorting": [[0, "desc"]],//默认第几个排序
-            "bStateSave": true,//状态保存
-        });
-    </script>
-@endsection

@@ -122,13 +122,12 @@
                     <tr class="text-c">
                         <th>日期</th>
                         <th>新增充值用户</th>
-                        <th>活跃新增用户</th>
-                        <th>登录次数</th>
-                        <th>人均登录次数</th>
+                        <th>充值用户活跃数</th>
+                        <th>充值用户登录次数</th>
+                        <th>充值用户人均登录次数</th>
                     </tr>
                     </thead>
                     <tbody>
-
                     @foreach($data as $k=>$v)
                         <tr class="text-c">
                             <td>{{ $k }}</td>
@@ -138,7 +137,6 @@
                             <td>{{ $v['login_sum_aver'] }}</td>
                         </tr>
                     @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -150,7 +148,6 @@
     <script type="text/javascript">
         $('.table-sort').dataTable({
             "aaSorting": [[0, "desc"]],//默认第几个排序
-            "bStateSave": true,//状态保存
         });
     </script>
 @endsection

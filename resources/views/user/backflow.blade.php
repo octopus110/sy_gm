@@ -80,26 +80,15 @@
                     </tr>
                     </thead>
                     <tbody>
-
                     <tr class="text-c">
                         <td>{{ $data['time'] }}</td>
                         <td>{{ $data['week'] }}</td>
                         <td>{{ $data['doubweek'] }}</td>
                         <td>{{ $data['month'] }}</td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
-@endsection
-
-@section('js')
-    <script type="text/javascript">
-        $('.table-sort').dataTable({
-            "aaSorting": [[0, "desc"]],//默认第几个排序
-            "bStateSave": true,//状态保存
-        });
-    </script>
 @endsection
