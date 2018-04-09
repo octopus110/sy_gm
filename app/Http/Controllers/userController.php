@@ -1481,25 +1481,26 @@ class userController extends Controller
         return $this->standard_return_view('user.rechargepeople', $data);
     }
 
-    //充值用户每日流失
+    //充值用户流失
     public function paychum()
     {
-        //查询所有注册的用户
-        $db_head = $this->getDoc('log_coll_recharge')
-            ->distinct('userId');
+        //3月采样充值用户
+        $user_pay_head = $this->getDoc('log_coll_recharge')
+            ->distinct('userId')
+            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 90)
+            ->where('logTime', '<=', $this->getTime()[1]);
         if ((int)request()->pid) {
-            $db_head = $db_head->where('pid', (int)request()->pid);
+            $db_head = $user_pay_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', (int)request()->serverId);
+            $db_head = $user_pay_head->where('serverId', (int)request()->serverId);
         }
-        $db_data_create_user = $db_head->get()->toArray();
+        $user_pay = $user_pay_head->get()->toArray();
 
-        //查询一月内登陆的用户
+        //查询充值用户登陆时间
         $db_head = $this->getDoc('log_coll_login')
             ->select('userId', 'logTime')
-            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 30)
-            ->where('logTime', '<=', $this->getTime()[1]);
+            ->whereIn('userId', $user_pay);
         if ((int)request()->pid) {
             $db_head = $db_head->where('pid', (int)request()->pid);
         }
@@ -1507,32 +1508,25 @@ class userController extends Controller
             $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
         $db_data_login = $db_head->get()->toArray();
+        $db_data_login = $this->array_unset_tt($db_data_login, 'userId');
 
-        $week = $doubweek = $month = [];
+        $week = $doubweek = $month = 0;
         foreach ($db_data_login as $v) {
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 7) {
-                if (!in_array($v['userId'], $week)) {
-                    $week[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 7) {
+                $week++;
             }
-
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 14) {
-                if (!in_array($v['userId'], $doubweek)) {
-                    $doubweek[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 14) {
+                $doubweek++;
             }
-
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 30) {
-                if (!in_array($v['userId'], $month)) {
-                    $month[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 30) {
+                $month++;
             }
         }
 
         $data['time'] = date('Y-m-d', $this->getTime()[1] / 1000);
-        $data['week'] = count(array_diff($db_data_create_user, $week));
-        $data['doubweek'] = count(array_diff($db_data_create_user, $doubweek));
-        $data['month'] = count(array_diff($db_data_create_user, $month));
+        $data['week'] = $week;
+        $data['doubweek'] = $doubweek;
+        $data['month'] = $month;
 
         return $this->standard_return_view('user.paychum', $data);
     }
@@ -1540,56 +1534,46 @@ class userController extends Controller
     //充值用户回流
     public function paybackflow()
     {
-        //查询所有注册的用户
-        $db_head = $this->getDoc('log_coll_recharge')
+        //3月采样充值用户
+        $user_pay_head = $this->getDoc('log_coll_recharge')
             ->distinct('userId')
-            ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
+            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 90)
+            ->where('logTime', '<=', $this->getTime()[1]);
         if ((int)request()->pid) {
-            $db_head = $db_head->where('pid', (int)request()->pid);
+            $db_head = $user_pay_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
-            $db_head = $db_head->where('serverId', (int)request()->serverId);
+            $db_head = $user_pay_head->where('serverId', (int)request()->serverId);
         }
-        $db_data_create_user = $db_head->get()->toArray();
+        $user_pay = $user_pay_head->get()->toArray();
 
-        //查询一月内登陆的用户
+        //充值用户登陆
         $db_head = $this->getDoc('log_coll_login')
             ->select('userId', 'logTime')
-            ->where('logTime', '>=', $this->getTime()[1] - $this->day_time * 31)
-            ->where('logTime', '<=', $this->getTime()[1] - $this->day_time);
+            ->whereIn('userId', $user_pay);
         if ((int)request()->pid) {
             $db_head = $db_head->where('pid', (int)request()->pid);
         }
         if (request()->serverId) {
             $db_head = $db_head->where('serverId', (int)request()->serverId);
         }
-        $db_data_login = $db_head->get()->toArray();
+        $db_data_login = $db_head->orderBy('logTime', 'desc')->get()->toArray();
+        $db_data_login = $this->array_unset_tt($db_data_login, 'userId');
 
         $week = $doubweek = $month = [];
         foreach ($db_data_login as $v) {
-            if ($v['logTime'] >= time() * 1000 - $this->day_time * 7) {
-                if (!in_array($v['userId'], $week)) {
-                    $week[] = $v['userId'];
-                }
+            if ($v['logTime'] <= time() * 1000 - $this->day_time * 7) {
+                $week[] = $v['userId'];
             }
 
             if ($v['logTime'] >= time() * 1000 - $this->day_time * 14) {
-                if (!in_array($v['userId'], $doubweek)) {
-                    $doubweek[] = $v['userId'];
-                }
+                $doubweek[] = $v['userId'];
             }
 
             if ($v['logTime'] >= time() * 1000 - $this->day_time * 30) {
-                if (!in_array($v['userId'], $month)) {
-                    $month[] = $v['userId'];
-                }
+                $month[] = $v['userId'];
             }
         }
-
-        $data['time'] = date('Y-m-d', $this->getTime()[1] / 1000);
-        $data['week'] = count(array_diff($db_data_create_user, $week));
-        $data['doubweek'] = count(array_diff($db_data_create_user, $doubweek));
-        $data['month'] = count(array_diff($db_data_create_user, $month));
 
         //查询今天登陆的用户
         $db_head = $this->getDoc('log_coll_login')
@@ -1605,10 +1589,9 @@ class userController extends Controller
         $db_data_login_day = $db_head->get()->toArray();
 
         $data['time'] = date('Y-m-d', $this->getTime()[1] / 1000);
-        $data['week'] = count(array_intersect($db_data_login_day, array_diff($db_data_create_user, $week)));
-        $data['doubweek'] = count(array_intersect($db_data_login_day, array_diff($db_data_create_user, $doubweek)));
-        $data['month'] = count(array_intersect($db_data_login_day, array_diff($db_data_create_user, $month)));
-
+        $data['week'] = count(array_intersect($week, $db_data_login_day));
+        $data['doubweek'] = count(array_intersect($week, $doubweek));
+        $data['month'] = count(array_intersect($week, $month));
 
         return $this->standard_return_view('user.paybackflow', $data);
     }

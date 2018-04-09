@@ -3,10 +3,10 @@
 Route::any('/login', 'loginController@login');
 Route::any('/quit', 'loginController@quit');
 
-Route::group(['middleware' => 'loginAuthentication'], function () {
+Route::middleware('loginAuthentication')->group(function () {
     Route::get('/', 'onlineController@index');
     //在线类
-    Route::group(['prefix' => 'online'], function () {
+    Route::prefix('online')->group(function () {
         Route::any('/total', 'onlineController@total');//总实时在线
         //Route::get('/capacity', 'onlineController@capacity');//实时服务器容量
         Route::any('/maxaverage', 'onlineController@maxaverage');//最高平均在线
@@ -16,7 +16,7 @@ Route::group(['middleware' => 'loginAuthentication'], function () {
         Route::any('/frequency', 'onlineController@frequency');//平均在线时长分布
     });
     //收入类
-    Route::group(['prefix' => 'income'], function () {
+    Route::prefix('income')->group(function () {
         Route::any('paytotal', 'incomeController@paytotal');//某时间段充值总况
         Route::any('timelypay', 'incomeController@timelypay');//每小时充值总况
         Route::any('payKTV', 'incomeController@payKTV');//LTV值
@@ -25,7 +25,7 @@ Route::group(['middleware' => 'loginAuthentication'], function () {
         Route::any('paydetail', 'incomeController@paydetail');//支付明细
     });
     //用户类
-    Route::group(['prefix' => 'user'], function () {
+    Route::prefix('user')->group(function () {
         Route::any('total', 'userController@total');//用户某时间总况
         Route::any('realtimertotal', 'userController@realtimertotal');//实时用户总况
         Route::any('newkeep', 'userController@newkeep');//新增用户留存率
@@ -40,7 +40,7 @@ Route::group(['middleware' => 'loginAuthentication'], function () {
         Route::any('paybackflow', 'userController@paybackflow');//回流
     });
     //GM工具
-    Route::group(['prefix' => 'gm'], function () {
+    Route::prefix('gm')->group(function () {
         Route::any('notice', 'gmController@notice');//登录前公告
         Route::any('notice/new_edit', 'gmController@noticeNewEdit');//登录前公告编辑
         Route::any('notice/release_del', 'gmController@releaseDel');//发布和删除
@@ -52,7 +52,7 @@ Route::group(['middleware' => 'loginAuthentication'], function () {
     });
 
     //其他
-    Route::group(['prefix' => 'other'], function () {
+    Route::prefix('other')->group(function () {
         Route::any('user', 'otherController@user');//后台用户管理
         Route::any('user/add', 'otherController@userAdd');//后台用户添加管理
         Route::any('user/edit', 'otherController@userEdit');//后台用户修改管理

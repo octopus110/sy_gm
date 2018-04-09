@@ -34,19 +34,19 @@
                     <div class="formControls col-xs-5 col-sm-5">
                         <div class="radio-box">
                             <input name="size[]" type="checkbox" id="size-2" value="8" checked>
-                            <label for="size-2">8CM</label>
+                            <label for="size-2">8cm</label>
                         </div>
                         <div class="radio-box">
                             <input name="size[]" type="checkbox" value="12" id="size-3">
-                            <label for="size-3">12CM</label>
+                            <label for="size-3">12cm</label>
                         </div>
                         <div class="radio-box">
                             <input name="size[]" type="checkbox" value="15" id="size-4">
-                            <label for="size-4">15CM</label>
+                            <label for="size-4">15cm</label>
                         </div>
                         <div class="radio-box">
                             <input name="size[]" type="checkbox" value="30" id="size-5">
-                            <label for="size-5">30CM</label>
+                            <label for="size-5">30cm</label>
                         </div>
                     </div>
                 </div>
