@@ -45,7 +45,14 @@ Route::middleware('loginAuthentication')->group(function () {
         Route::any('notice/new_edit', 'gmController@noticeNewEdit');//登录前公告编辑
         Route::any('notice/release_del', 'gmController@releaseDel');//发布和删除
         Route::any('query/basic', 'gmController@queryBasic');//玩家信息查询
-        Route::any('query/hero', 'gmController@queryHero');//玩家英雄查询
+        Route::any('query/basic/more', 'gmController@queryBasicMore');//玩家更多信息
+        Route::any('query/recharge', 'gmController@queryRecharge');//角色充值记录查询查询
+        Route::any('query/shutup', 'gmController@queryShutup');//禁言
+        Route::any('query/lock', 'gmController@queryLock');//玩家冻结
+        Route::any('query/lock/role', 'gmController@queryLockRole');//角色冻结
+        Route::any('query/pay', 'gmController@queryPay');//补单
+
+
         Route::any('query/money/flow', 'gmController@moneyFlow');//查询玩家货币流转记录
         Route::any('query/property/flow', 'gmController@propertyFlow');//查询玩家道具流转记录
         Route::any('query/property/flow', 'gmController@propertyFlow');//查询玩家道具流转记录

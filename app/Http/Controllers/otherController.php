@@ -166,75 +166,92 @@ class otherController extends Controller
     public function QRcode(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('other.QRcode');
-        } else {
+            $scan_times = json_decode(Storage::disk('local')->get('scan_times'), true);
+            if (!$scan_times) {
+                $scan_times = [
+                    'android' => 0,
+                    'ios' => 0,
+                    'sum' => 0
+                ];
 
-            $rst = Storage::disk('local')->put('QR_url', json_encode([
+                Storage::disk('local')->put('scan_times', json_encode($scan_times));
+            }
+
+            return view('other.QRcode', [
+                'data' => $scan_times,
+            ]);
+        } else {
+            Storage::disk('local')->put('QR_url', json_encode([
                 'android' => $request->get('android'),
                 'ios' => $request->get('ios')
             ]));
 
-            if ($rst) {
-                $QR_arr = [];
-
-                $size_arr = $request->get('size');
-
-                foreach ($size_arr as $v) {
-
-                    switch ($v) {
-                        case 8:
-                            $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_8.png';
-                            QrCode::format('png')->size(226)->generate(asset('other/scan'), $QR_path);
-                            $QR_arr[] = [
-                                '8cm','/qr/qrcode_8.png'
-                            ];
-                            break;
-                        case 12:
-                            $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_12.png';
-                            QrCode::format('png')->size(340)->generate(asset('other/scan'), $QR_path);
-                            $QR_arr[] = [
-                                '12cm','/qr/qrcode_12.png'
-                            ];
-                            break;
-                        case 15:
-                            $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_15.png';
-                            QrCode::format('png')->size(425)->generate(asset('other/scan'), $QR_path);
-                            $QR_arr[] = [
-                                '15cm','/qr/qrcode_15.png'
-                            ];
-                            break;
-                        case 30:
-                            $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_30.png';
-                            QrCode::format('png')->size(850)->generate(asset('other/scan'), $QR_path);
-                            $QR_arr[] = [
-                                '30cm','/qr/qrcode_30.png'
-                            ];
-                            break;
-                    }
+            $QR_arr = [];
+            $size_arr = $request->get('size');
+            foreach ($size_arr as $v) {
+                switch ($v) {
+                    case 8:
+                        $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_8.png';
+                        QrCode::format('png')->size(226)->generate(asset('other/scan'), $QR_path);
+                        $QR_arr[] = [
+                            '8cm', '/qr/qrcode_8.png'
+                        ];
+                        break;
+                    case 12:
+                        $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_12.png';
+                        QrCode::format('png')->size(340)->generate(asset('other/scan'), $QR_path);
+                        $QR_arr[] = [
+                            '12cm', '/qr/qrcode_12.png'
+                        ];
+                        break;
+                    case 15:
+                        $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_15.png';
+                        QrCode::format('png')->size(425)->generate(asset('other/scan'), $QR_path);
+                        $QR_arr[] = [
+                            '15cm', '/qr/qrcode_15.png'
+                        ];
+                        break;
+                    case 30:
+                        $QR_path = public_path('qr') . DIRECTORY_SEPARATOR . 'qrcode_30.png';
+                        QrCode::format('png')->size(850)->generate(asset('other/scan'), $QR_path);
+                        $QR_arr[] = [
+                            '30cm', '/qr/qrcode_30.png'
+                        ];
+                        break;
                 }
-                return response()->json([
-                    'status' => 1,
-                    'msg' => 'success',
-                    'data' => $QR_arr,
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 0,
-                    'msg' => 'error',
-                    'data' => []
-                ]);
             }
+            return response()->json([
+                'status' => 1,
+                'msg' => 'success',
+                'data' => $QR_arr,
+            ]);
         }
     }
 
-    //生成二维码操作
+    //扫描二维码
     public function scan()
     {
+        //统计扫描次数
+        $scan_times = json_decode(Storage::disk('local')->get('scan_times'), true);
+        $android = $scan_times['android'];
+        $ios = $scan_times['ios'];
+        $sum = $android + $ios;
+
         $QR_url = json_decode(Storage::disk('local')->get('QR_url'), true);
 
         if ($this->get_device_type()) {
+            Storage::disk('local')->put('scan_times', json_encode([
+                'android' => $android + 1,
+                'ios' => $ios,
+                'sum' => $sum + 1
+            ]));
             return redirect($QR_url['android']);
         } else {
+            Storage::disk('local')->put('scan_times', json_encode([
+                'android' => $android,
+                'ios' => $ios + 1,
+                'sum' => $sum + 1
+            ]));
             return redirect($QR_url['ios']);
         }
     }

@@ -241,9 +241,7 @@ class incomeController extends Controller
         $create_data = array_column($create_data, 'userId');
         $create_data_dis = array_column($create_data, 'userId');
 
-        //获取时间列表
-        //$this_date = $this->generationHourSeries($this->getTime()[0], $this->getTime()[1]);
-
+        $data = [];
         foreach ($login_data_distinct as $v) {
             $hour = date('H', $v['logTime']);
             $data[$hour] = [

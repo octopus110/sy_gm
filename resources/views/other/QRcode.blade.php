@@ -12,6 +12,16 @@
         </nav>
 
         <div class="page-container">
+            <div class="row cl">
+                <label class="form-label col-xs-1 col-sm-1 text-r">扫描统计:</label>
+                <label class="form-label col-xs-1 col-sm-1">Android：{{ $data['android'] }} 次</label>
+                <label class="form-label col-xs-1 col-sm-1">ios：{{ $data['ios'] }} 次</label>
+                <label class="form-label col-xs-1 col-sm-1">总计：{{ $data['sum'] }} 次</label>
+            </div>
+            <div class="row cl">
+                &nbsp;
+            </div>
+
             <form action="javascript:;" class="form form-horizontal" id="form-admin-add">
                 <div class="row cl">
                     <label class="form-label col-xs-1 col-sm-1">Android：</label>

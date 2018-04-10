@@ -124,32 +124,121 @@ class gmController extends Controller
         return response()->json(['status' => 200]);
     }
 
+    //数据返回模板
+    public function dataReturnTemplate($view, $data, $request)
+    {
+        return view($view, [
+            'server' => $this->getServer(),
+            'pid' => $this->getPid(),
+            'data' => $data,
+            'parameter' => $request->except('_token')
+        ]);
+    }
+
     //玩家基本信息查询
     public function queryBasic(Request $request)
     {
-        if ($request->isMethod('post')) {
+        $data = [];
+        if ($request->get('roleId') || $request->get('roleNick')) {
+            if ($request->isMethod('post')) {
+                $session_id = $this->login_remote();
+                $url = $this->port_path . 'queryRole';
+                $params = [
+                    'roleName' => $request->get('roleNick'),
+                    'roleId' => $request->get('roleId'),
+                    'serverId' => $request->get('serverId'),
+                    'pack' => 0,
+                ];
 
+                $data = $this->curl($url, $params, $session_id);
+                $data = json_decode($data, true);
+            }
         }
 
-        $server = DB::table('t_server_area')->get();
-
-        return view('gm.query_basic', [
-            'server' => $server
-        ]);
+        return $this->dataReturnTemplate('gm.query_basic', $data, $request);
     }
 
-    public function queryHero(Request $request)
+    //查询玩家更多信息
+    public function queryBasicMore()
     {
-        if ($request->isMethod('post')) {
+        $session_id = $this->login_remote();
 
-        }
+        $url = $this->port_path . 'queryRole';
+        $params = [
+            'roleName' => request()->get('roleName'),
+            'roleId' => request()->get('roleId'),
+            'serverId' => request()->get('serverId'),
+            'pack' => 1
+        ];
 
-        $server = DB::table('t_server_area')->get();
+        $data = $this->curl($url, $params, $session_id);
+        $data = json_decode($data, true);
 
-        return view('gm.query_hero', [
-            'server' => $server
+        return view('gm.query_basic_more', ['data' => $data]);
+    }
+
+    //查询角色充值记录
+    public function queryRecharge()
+    {
+        $recharge = $this->getDoc('log_coll_recharge')
+            ->where('roleId', (int)request()->get('id'))
+            ->get();
+
+        return view('gm.query_recharge', [
+            'data' => $recharge
         ]);
     }
+
+    //玩家禁言
+    public function queryShutup()
+    {
+        return view('gm.query_basic_shutup', [
+            'serverId' => request()->get('serverId'),
+            'roleIds' => request()->get('roleIds'),
+            'ip' => $this->port_path
+        ]);
+    }
+
+    //玩家解冻
+    public function queryLock()
+    {
+        return view('gm.query_basic_lock', [
+            'userId' => request()->get('userId'),
+            'roleName' => request()->get('roleName'),
+            'ip' => $this->port_path
+        ]);
+    }
+
+    //角色冻结
+    public function queryLockRole()
+    {
+        return view('gm.query_basic_lock_role', [
+            'serverId' => request()->get('serverId'),
+            'roleId' => request()->get('roleId'),
+            'ip' => $this->port_path
+        ]);
+    }
+
+    //补单
+    public function queryPay()
+    {
+        //获取channp
+        $session_id = $this->login_remote();
+        $url = $this->port_path . 'getrecharge.do';
+
+        $good = $this->curl($url, $session_id);
+        $good = json_decode($good, true);
+
+        return view('gm.query_pay', [
+            'serverId' => request()->get('serverId'),
+            'roleId' => request()->get('roleId'),
+            'pid' => request()->get('pid'),
+            'passportId' => request()->get('passportId'),
+            'ip' => $this->port_path,
+            'good' => $good
+        ]);
+    }
+
 
     //货币流转记录
     public function moneyFlow(Request $request)

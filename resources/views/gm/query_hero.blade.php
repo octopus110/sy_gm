@@ -13,32 +13,45 @@
 
         <div class="page-container">
             <div class="text-c">
-                <span class="select-box inline">
-                    <select name="" class="select">
+                <form action="/gm/query/hero" method="post" class="form form-horizontal">
+                    @csrf
+                    <span class="select-box inline">
+                    <select name="pid" class="select">
                         <option value="0">选择大区</option>
-                        @foreach($server as $v)
-                            <option value="{{ $v->id }}">{{ $v->name }}</option>
+                        @foreach($pid as $k=>$v)
+                            <option value="{{ $k }}" {{ isset($parameter['pid'])&&$parameter['pid']==$k?'selected':'' }}>{{ $v }}</option>
                         @endforeach
                     </select>
 		        </span>
-                <span class="select-box inline">
-                    <select name="" class="select">
+                    <span class="select-box inline">
+                    <select name="serverId" class="select">
                         <option value="0">选择服务器</option>
-                        @foreach($server as $v)
-                            <option value="{{ $v->id }}">{{ $v->name }}</option>
+                        @foreach($server as $k=>$v)
+                            <option value="{{ $k }}" {{ isset($parameter['serverId'])&&$parameter['serverId']==$k?'selected':'' }}>{{ $v }}</option>
                         @endforeach
                     </select>
 		        </span>
-                <input type="text" name="" id="" placeholder="玩家昵称" style="width:250px" class="input-text">
-                <input type="text" name="" id="" placeholder="玩家ID" style="width:100px" class="input-text">
-                <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 查询
-                </button>
+                    <input type="text" name="userId" id=""
+                           placeholder="{{ isset($parameter['userId'])?$parameter['userId']:'玩家ID' }}"
+                           style="width:100px"
+                           class="input-text">
+                    <input type="text" name="roleNick" id=""
+                           placeholder="{{ isset($parameter['roleNick'])?$parameter['roleNick']:'角色昵称' }}"
+                           style="width:250px" class="input-text">
+                    <button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 查询
+                    </button>
+                </form>
             </div>
             <div class="mt-20">
                 <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
                     <thead>
                     <tr class="text-c">
                         <th>ID</th>
+                        <th>大区</th>
+                        <th>服务器</th>
+                        <th>玩家ID</th>
+                        <th>角色ID</th>
+                        <th>角色昵称</th>
                         <th>拥有英雄</th>
                         <th>是否上阵</th>
                         <th>英雄等级</th>
@@ -50,7 +63,24 @@
                     </tr>
                     </thead>
                     <tbody>
-
+                    @foreach($data as $v)
+                        <tr>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['pid'] }}</td>
+                            <td>{{ $v['serverId'] }}</td>
+                            <td>{{ $v['userId'] }}</td>
+                            <td>{{ $v['roleId'] }}</td>
+                            <td>{{ $v['roleName'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                            <td>{{ $v['_id'] }}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -60,13 +90,6 @@
 
 @section('js')
     <script type="text/javascript">
-        /*$('.table-sort').dataTable({
-            "aaSorting": [[1, "desc"]],//默认第几个排序
-            "bStateSave": true,//状态保存
-            "pading": false,
-            "aoColumnDefs": [
-                {"orderable": false, "aTargets": [0, 7]}// 不参与排序的列
-            ]
-        });*/
+        $('.table-sort').dataTable();
     </script>
 @endsection
