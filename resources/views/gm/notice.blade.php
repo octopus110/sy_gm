@@ -6,7 +6,7 @@
             <span class="c-999 en">&gt;</span>
             <a href="/gm/index" class="maincolor">GM工具</a>
             <span class="c-999 en">&gt;</span>
-            <span class="c-666">首页</span>
+            <span class="c-666">公告</span>
             <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
         </nav>
