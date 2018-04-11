@@ -239,6 +239,26 @@ class gmController extends Controller
         ]);
     }
 
+    //踢下线
+    public function queryKick()
+    {
+        $session_id = $this->login_remote();
+        $url = $this->port_path . 'MonitorGetInfo';
+        $params = [
+            'method' => 'tickOff',
+            'id' => request()->get('serverId'),
+            'type' => 22,
+            'class' => 'com.sygame.framework.monitor.game.OnlineInfoBean',
+            'java.lang.Long0' => request()->get('userId')
+        ];
+
+        $this->curl($url, $params, $session_id);
+
+        return response()->json([
+            'status' => true,
+        ]);
+    }
+
 
     //货币流转记录
     public function moneyFlow(Request $request)

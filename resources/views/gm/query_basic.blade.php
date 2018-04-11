@@ -72,6 +72,8 @@
                                    href="javascript:;" class="btn btn-danger radius">账号解冻</a>
                                 <a onClick=get_more('角色解冻','/gm/query/lock/role?serverId={{ $v["serverId"] }}&roleId={{ $v["roleId"] }}')
                                    href="javascript:;" class="btn btn-danger radius">角色解冻</a>
+                                <a onClick=kick(this,'/gm/query/kick?serverId={{ $v["serverId"] }}&userId={{ $v["userId"] }}')
+                                   href="javascript:;" class="btn btn-danger radius">踢下线</a>
                                 <a onClick=get_more('充值补单','/gm/query/pay?serverId={{ $v["serverId"] }}&roleId={{ $v["roleId"] }}&pid={{ $v['pid'] }}&passportId={{$v['userId']}}')
                                    href="javascript:;" class="btn btn-info radius">充值补单</a>
                             </td>
@@ -113,6 +115,25 @@
                 content: url
             });
             layer.full(index);
+        }
+
+        /*踢下线*/
+        function kick(obj, url) {
+            layer.confirm('确认踢下线吗？', function (index) {
+                $.ajax({
+                    type: 'get',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status) {
+                            layer.msg('操作成功', {icon: 1, time: 1000});
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.msg);
+                    },
+                });
+            });
         }
     </script>
 @endsection

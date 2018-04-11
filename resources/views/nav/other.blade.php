@@ -6,7 +6,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="/other/user">用户列表</a></li>
+                    <li><a href="/other/user">管理员列表</a></li>
                     <li><a href="/other/user/record">操作记录</a></li>
                     <li><a href="/other/QRcode">二维码</a></li>
                     <li><a href="JavaScript:;">发码</a></li>

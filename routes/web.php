@@ -51,11 +51,10 @@ Route::middleware('loginAuthentication')->group(function () {
         Route::any('query/lock', 'gmController@queryLock');//玩家冻结
         Route::any('query/lock/role', 'gmController@queryLockRole');//角色冻结
         Route::any('query/pay', 'gmController@queryPay');//补单
-
+        Route::any('query/pay', 'gmController@queryPay');//踢下线
 
         Route::any('query/money/flow', 'gmController@moneyFlow');//查询玩家货币流转记录
-        Route::any('query/property/flow', 'gmController@propertyFlow');//查询玩家道具流转记录
-        Route::any('query/property/flow', 'gmController@propertyFlow');//查询玩家道具流转记录
+        Route::any('query/kick', 'gmController@queryKick');//踢下线
     });
 
     //其他
