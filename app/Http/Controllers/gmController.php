@@ -14,6 +14,8 @@ class gmController extends Controller
         $notice = DB::table('t_notice')->whereIn('status', [0, 1])->get()->toArray();
 
         array_walk($notice, function ($v) {
+            $v->contant = str_replace(array("\r\n", "\r", "\n"), "", $v->contant);
+
             $lang = json_decode($v->title, true)['lang'];
             $text = json_decode($v->title, true)['text'];
             $v->title = array_combine($lang, $text);
@@ -41,6 +43,8 @@ class gmController extends Controller
         if ($request->isMethod('get')) {
             if (request()->get('id')) {//修改
                 $notice = DB::table('t_notice')->where('id', request()->get('id'))->first();
+
+                $notice->contant = str_replace(array("\r\n", "\r", "\n"), "", $notice->contant);
 
                 $lang = json_decode($notice->title, true)['lang'];
                 $text = json_decode($notice->title, true)['text'];
@@ -104,19 +108,20 @@ class gmController extends Controller
 
             if (request()->get('id')) {//修改
                 //记录操作
-                $res = DB::table('t_user_record')->insert([
+                DB::table('t_user_record')->insert([
                     'userName' => session()->get('account'),
                     'recordDesc' => '修改公告',
-                    'recordData' => json_encode($data,JSON_UNESCAPED_UNICODE),
+                    'recordData' => json_encode($data, JSON_UNESCAPED_UNICODE),
                     'recordTime' => date('Y-m-d H:i:s', time())
                 ]);
-                DB::table('t_notice')->where('id', request()->get('id'))->update($data);
+
+                $res = DB::table('t_notice')->where('id', request()->get('id'))->update($data);
             } else {//新增
                 //记录操作
                 DB::table('t_user_record')->insert([
                     'userName' => session()->get('account'),
                     'recordDesc' => '新增公告',
-                    'recordData' => json_encode($data,JSON_UNESCAPED_UNICODE),
+                    'recordData' => json_encode($data, JSON_UNESCAPED_UNICODE),
                     'recordTime' => date('Y-m-d H:i:s', time())
                 ]);
                 DB::table('t_notice')->insert($data);
@@ -136,7 +141,7 @@ class gmController extends Controller
                 'recordDesc' => '发布公告',
                 'recordData' => json_encode([
                     'id' => request()->get('id'),
-                ],JSON_UNESCAPED_UNICODE),
+                ], JSON_UNESCAPED_UNICODE),
                 'recordTime' => date('Y-m-d H:i:s', time())
             ]);
             DB::table('t_notice')->where('id', request()->get('id'))->update(['status' => 1]);
@@ -147,7 +152,7 @@ class gmController extends Controller
                 'recordDesc' => '删除公告',
                 'recordData' => json_encode([
                     'id' => request()->get('id'),
-                ],JSON_UNESCAPED_UNICODE),
+                ], JSON_UNESCAPED_UNICODE),
                 'recordTime' => date('Y-m-d H:i:s', time())
             ]);
             DB::table('t_notice')->where('id', request()->get('id'))->update(['status' => 2]);

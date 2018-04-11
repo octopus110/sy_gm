@@ -81,10 +81,11 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea class="textarea" style="width:100%; height:300px; resize:none" name="contant"> {!! isset($data->contant)?$data->contant :"中英文用****分割，中文在上英文在下，例如
-中文内容。
-****
-Here is the English content." !!}</textarea>
+                <textarea class="textarea" name="contant" style="height: 200px;"
+                          placeholder="中英文用****分割，中文在上英文在下，例如:
+ 中文内容。
+ ****
+ Here is the English content.">@if(isset($data->contant)){!!$data->contant !!}@endif</textarea>
             </div>
         </div>
         <div class="row cl">
