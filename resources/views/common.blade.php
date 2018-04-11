@@ -45,8 +45,6 @@
             </nav>
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                 <ul class="cl">
-                    <li id="Hui-msg"><a href="#" title="消息"><span class="badge badge-danger">1</span><i
-                                    class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a></li>
                     <li>{{ session()->get('title') }}</li>
                     <li class="dropDown dropDown_hover"><a href="#" class="dropDown_A">{{ session()->get('account') }}
                             <i class="Hui-iconfont">&#xe6d5;</i></a>
