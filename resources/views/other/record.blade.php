@@ -46,6 +46,23 @@
                 </div>
 
                 <div class="row cl">
+                    <label class="form-label col-xs-1 col-sm-1">操作类型：</label>
+                    <div class="formControls col-xs-1 col-sm-1">
+                        <span class="select-box">
+                            <select class="select" size="1" name="operation">
+                                <option value="0">全部</option>
+                                <option value="用户登录">用户登录</option>
+                                <option value="道具">道具操作</option>
+                                <option value="禁言">禁言封号</option>
+                                <option value="公告">公告日志</option>
+                                <option value="补单">补单日志</option>
+                                <option value="关卡">关卡、引导日志</option>
+                            </select>
+				        </span>
+                    </div>
+                </div>
+
+                <div class="row cl">
                     <div class="col-xs-1 col-sm-1 col-xs-offset-1 col-sm-offset-1">
                         <button class="btn btn-success radius" type="submit">
                             <i class="Hui-iconfont">&#xe665;</i>查询
@@ -83,9 +100,7 @@
 @section('js')
     <script type="text/javascript">
         $('.table-sort').dataTable({
-            "aaSorting": [[2, "desc"]],//默认第几个排序
-/*            "iDisplayLength" : 6, //默认显示的记录数
-            "bLengthChange": true,                  //是否允许用户自定义每页显示条数。*/
+            "aaSorting": [[3, "desc"]],//默认第几个排序
         });
     </script>
 @endsection

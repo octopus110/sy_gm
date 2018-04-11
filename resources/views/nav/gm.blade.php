@@ -21,7 +21,6 @@
                     <li><a href="/gm/query/money/flow">货币流转记录</a></li>
                     <li><a href="/gm/query/property/flow">道具流转记录</a></li>
                     <li><a href="javascript:;">引导信息</a></li>
-                    <li><a href="javascript:;">日志查询</a></li>
                 </ul>
             </dd>
         </dl>
@@ -32,7 +31,7 @@
             </dt>
             <dd style="display: block">
                 <ul>
-                    <li><a href="javascript:;">道具发放与删除</a></li>
+                    <li><a href="/gm/grant">道具发放</a></li>
                     <li><a href="javascript:;">引导、关卡</a></li>
                 </ul>
             </dd>

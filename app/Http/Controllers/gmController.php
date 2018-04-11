@@ -103,8 +103,22 @@ class gmController extends Controller
             }
 
             if (request()->get('id')) {//修改
+                //记录操作
+                $res = DB::table('t_user_record')->insert([
+                    'userName' => session()->get('account'),
+                    'recordDesc' => '修改公告',
+                    'recordData' => json_encode($data,JSON_UNESCAPED_UNICODE),
+                    'recordTime' => date('Y-m-d H:i:s', time())
+                ]);
                 DB::table('t_notice')->where('id', request()->get('id'))->update($data);
             } else {//新增
+                //记录操作
+                DB::table('t_user_record')->insert([
+                    'userName' => session()->get('account'),
+                    'recordDesc' => '新增公告',
+                    'recordData' => json_encode($data,JSON_UNESCAPED_UNICODE),
+                    'recordTime' => date('Y-m-d H:i:s', time())
+                ]);
                 DB::table('t_notice')->insert($data);
             }
 
@@ -116,8 +130,26 @@ class gmController extends Controller
     public function releaseDel()
     {
         if (request()->get('option') == '1') {//发布
+            //记录操作
+            DB::table('t_user_record')->insert([
+                'userName' => session()->get('account'),
+                'recordDesc' => '发布公告',
+                'recordData' => json_encode([
+                    'id' => request()->get('id'),
+                ],JSON_UNESCAPED_UNICODE),
+                'recordTime' => date('Y-m-d H:i:s', time())
+            ]);
             DB::table('t_notice')->where('id', request()->get('id'))->update(['status' => 1]);
         } elseif (request()->get('option') == '2') {//删除
+            //记录操作
+            DB::table('t_user_record')->insert([
+                'userName' => session()->get('account'),
+                'recordDesc' => '删除公告',
+                'recordData' => json_encode([
+                    'id' => request()->get('id'),
+                ],JSON_UNESCAPED_UNICODE),
+                'recordTime' => date('Y-m-d H:i:s', time())
+            ]);
             DB::table('t_notice')->where('id', request()->get('id'))->update(['status' => 2]);
         }
 
@@ -259,7 +291,6 @@ class gmController extends Controller
         ]);
     }
 
-
     //货币流转记录
     public function moneyFlow(Request $request)
     {
@@ -350,5 +381,28 @@ class gmController extends Controller
             'server' => $server,
             'pid' => $pid
         ]);
+    }
+
+    //道具发放
+    public function grant()
+    {
+        return view('gm.grant', [
+            'ip' => $this->port_path,
+            'server' => $this->getServer()
+        ]);
+    }
+
+    //获取道具
+    public function grantAjax()
+    {
+        $session_id = $this->login_remote();
+        $url = $this->port_path . 'getItemByType.do';
+        $params = [
+            'type' => request()->get('type')
+        ];
+
+        $data = $this->curl($url, $params, $session_id);
+        $data = json_decode($data, true);
+        return response()->json($data);
     }
 }

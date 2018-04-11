@@ -150,6 +150,11 @@ class otherController extends Controller
         if (request()->get('account')) {
             $record_db = $record_db->where('userName', request()->get('account'));
         }
+
+        //dd(request()->get('operation'));
+        if (request()->get('operation')) {
+            $record_db = $record_db->where('recordDesc', 'like', '%' . request()->get('operation') . "%");
+        }
         $data = $record_db->limit(100)->get();
 
         return view('other.record', [
